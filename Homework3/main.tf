@@ -27,7 +27,7 @@ resource "aws_instance" "web1" {
   
   ami  = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-user_data = file("apache.sh")
+  user_data = file("apache.sh")
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
   availability_zone = element (["us-west-2a","us-west-2b","us-west-2c"],count.index)
   count=3
@@ -36,11 +36,10 @@ user_data = file("apache.sh")
   tags={
     name= element(["Web1","Web2","Web3"],count.index)
   
-  }
-  
+  } 
 }
 
 output web {
-    value = aws_instance.web1[1].public_ip
+    value = aws_instance.web1[0].public_ip
     #sensitive = true
 }
